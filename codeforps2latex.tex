@@ -1,0 +1,807 @@
+<DOCTYPE>
+	<style>
+	
+.btn-group button {
+  background-color: white;
+  border: 3px solid black; 
+  color: black; 
+  padding: 10px 24px; /
+  cursor: pointer; 
+  float: left; 
+}
+
+.btn-group button:not(:last-child) {
+  border-right: none;
+}
+
+
+.btn-group:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+
+.btn-group button:hover {
+  background-color: lightgrey;
+}
+
+.container { 
+  height: 200px;
+  position: relative;
+  width: 100%
+  
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.header{
+	
+padding: 30px;
+text-align: center;
+background: black;
+color: white;
+font-size: 30px;
+font-family = "Courrier New", monospace;
+margin-bottom: 100px;
+
+	
+}
+
+
+</style>
+<title> Team 3 Sensors</title>
+<meta name ="viewpoint" content="width=device-width, initial-scale=1"/>
+
+	
+	
+	</style>
+	<div class = "header">
+
+	<h2 style ="font-family: Arial"> Sensor Dashboard</h2>
+	<p style ="font-family: Arial"> William Trolinger, Dalton Oxford, Jake Parnell</p>
+	
+	
+	</div>
+	
+
+<body>
+		
+		
+	<table style =  "text-align: center"id = "sensorTable" width = 100%>
+		
+		<tr>
+			
+			<th style ="font-family: Arial " width ="100px" id = "row_1col1">Tempurature</td>
+			<th  style ="font-family: Arial" width ="100px" height = "50px" id = "row_1col2">Object Detected</td>
+			
+			
+		</tr>
+		<tr>
+			<td  style ="font-family: Arial text-align: center font-size: 30px" width ="100px" height = "50px" id = "row_2col1"> </td>
+			<td  style ="font-family: Arial text-align: center" width ="100px" height = "50px" id = "row_2col2"> </td>
+		
+		</tr>
+	
+	</table>
+	
+	
+</body>
+
+
+	
+	
+<body>  
+	
+	<div class= "btn-group" width = 50% >
+		
+		<div class="container">
+			<div class="center" width = 20%>
+		
+  
+  <button style ="font-family: Arial" width = "40px" id = "buzButton" onclick = "buzzButton()" type = "button">Buzzer</button>
+	<button style ="font-family: Arial"id = "ledButton" onclick = "actionLedLight()" type = "button">   Light</button>
+  
+  </div>
+</div>
+	
+	
+	
+	</div>
+	
+	
+</body>
+
+<script>
+
+
+	// SENSOR scdedule remain a key piece of the
+	
+	window.setInterval(
+		function(){
+			console.log("Reading on second intervale");
+			try { 
+				
+				
+				pullTempature();
+			}catch(e) {
+				
+			}
+			
+			actionDetechObject();
+			
+		}
+		
+	,1000);
+	
+	
+	function setupMain() { 
+		
+		console.log("Main Set up Running");
+		
+		
+		// setting up pull request on intervale in order to make sure that getting the right information from the 
+		// from the program and make sure everthing is good in the program
+		//setTimeout(pullTepmature, 3000);
+	}
+	
+	
+	
+	function pullDetechObject()  { 
+		
+			jsonObject = fetch("detectObject").then(function (resp){return resp.json();}).then(function (data){
+				
+					
+				
+					stringBack = data.ObjectDetech; 
+					return stringBack;
+				
+					
+				}
+			
+			
+			
+			
+			);
+			
+			
+	
+		
+			
+		
+	}
+	
+	
+	function setObjectDetech(detectation){ 
+		
+		
+		document.getElementById("row_2col2").innerHTML = detectation;
+		
+	}
+	
+	
+	
+	function actionLedLight() { 
+			
+			
+			fetch("LedLight").then(function (resp) {return resp.json()}).then(function (data){
+				
+				
+					
+				
+			});
+		
+		
+	}
+	
+	
+	
+	function actionDetechObject() { 
+		
+		
+		/*
+		function pullTempature() { 
+		
+		
+			fetch("getTempature").then(function (resp){ return resp.json()}).then(function(data) { 
+				
+				
+				tempature = data.Tempature; 
+				console.log(tempature); 
+				setTextTempature(tempature);
+				
+				
+			});
+		
+	}
+		
+		*/
+		fetch("detectObject").then(function (resp) {return resp.json()}).then(function (data) {
+			
+			console.log("Here in the code");
+			returnBackReading = data.ObjectDetech; 
+			
+			console.log(returnBackReading);
+			document.getElementById("row_2col2").innerHTML = returnBackReading;
+			
+		} 
+		
+		
+		
+		
+		);
+		
+		
+	}
+	
+	function pullTempature() { 
+		
+		
+			fetch("getTempature").then(function (resp){ return resp.json()}).then(function(data) { 
+				
+				
+				tempature = data.Tempature; 
+				console.log(tempature); 
+				setTextTempature(tempature);
+				
+				
+			});
+		
+	}
+	
+	// tempature is going to be string
+	function setTextTempature(tempature){ 
+		
+		//document.getElementById("tempature").innerHTML = "Tempature: " +  tempature + ", c";
+		document.getElementById("row_2col1").innerHTML = tempature;
+		
+	}
+	
+	
+	
+
+	
+	
+	
+	
+	function buzzButton(){ 
+		
+		try  { 
+			
+			
+			fetch("buzzBuzz").then(resp => function (resp){return resp.json()});
+			console.log("Buzz buz");
+		}catch(e) { 
+			
+				console.log("no buzz buz sad times!!");
+		}
+	}
+	
+	
+	function pullObject() { 
+		
+			try {
+				console.log("Object detech");
+				
+				
+			}catch(e) { 
+				
+				
+				
+			}
+		
+	}
+	
+	
+	/* 
+		Tempature function and code is given below for the project so goin g
+	
+	*/
+	
+	
+	function buttonPress() { 
+		
+			console.log("Button was press running test");
+			document.getElementById("theButton").innerHTML = "Bet";
+			getInformationFromServer();
+			
+	}
+	
+	function getInformationFromServer() { 
+		
+		fetch("getBack").then(function (resp){return resp.json()}).then(function(data)
+		{
+			
+			console.log(data)
+			try { 
+				
+				
+				
+				
+				JSON.parse(data);
+			
+			
+			}catch(e) { 
+				
+					console.log("Json parsing dont work at all so no good");
+				
+			}
+			
+			name = data.Name
+			console.log(name);
+			
+			
+			updateText(name);
+			
+			
+			
+			
+		});
+		
+		
+			
+		
+		
+	}
+	
+	function updateText(tempNum){ 
+		
+		document.getElementById("tempature").innerHTML = "Temperature: " + tempNum + " c";
+		document.getElementById("sensorTable_point3").innerHTML =tempNum;
+		
+		
+	}
+
+	
+</script>
+<style>
+	#sensorTable, td,tr{ 
+		
+		border: 1px solid black;
+		
+	}
+
+</style>
+
+########################################################################################################################
+
+
+import PCF8591 as ADC
+import RPi.GPIO as GPIO
+import time
+import math
+import os
+
+#cherry-py
+import cherrypy
+
+
+
+index = 0;
+colors = [0xFF00, 0x00FF, 0x0FF0, 0xF00F]
+pins = (13, 22)
+
+#web server and main functioning code
+#######################################################
+
+def main():
+	
+	
+	
+	print("Here in the code");
+	print("Current pages directory is going to be ",getPagesDirectory());
+	print("\n\nSt arting up web server...");
+	
+	# simple start for the web-server
+	cherrypy.quickstart(webFrame() );
+	
+
+	return;
+
+class webFrame(object): 
+
+	
+
+	@cherrypy.expose
+	def index(self):
+		return loadPage(simplePageGrab("Page1.html"));
+	
+	
+	
+	
+	# NOT NEEDED was just testing from the past
+	@cherrypy.expose
+	@cherrypy.tools.json_out()
+	def getBack(self):
+		
+		#
+		print("request");
+		
+		
+		# Getting back a string from server whcih send back with in order to make sure everthing is 
+		# everthing is working the right
+		tempReadValue = tempRead();
+		print("\n\nTemp Value: " , tempReadValue , "\n\n");
+		return {"Name": tempReadValue};
+	
+	
+	@cherrypy.expose
+	@cherrypy.tools.json_in()
+	def buzzBuzz(self):
+		
+		print("buzz buzz");
+		
+		buzzerOn();
+		
+		return;
+	
+	########################	
+	#@cherrypy.expose
+	#@cherrypy.tools.json_in()
+	#def lightsOn(self):
+		
+	#	print("let there be light");
+		
+	#	lightOn   ();
+		
+	#	return;
+		
+	# Get Back the Tempature for the program
+	@cherrypy.expose
+	@cherrypy.tools.json_out()
+	def getTempature(self): 
+		
+		tempReadValue = tempRead(); 
+		
+		
+		return {"Tempature" : tempReadValue};
+	
+	
+	
+	@cherrypy.expose
+	@cherrypy.tools.json_out()
+	def detectObject(self):
+		
+		print("detecting object in the");
+		return{"ObjectDetech": str(checkDetech() ) };
+
+
+	@cherrypy.expose
+	@cherrypy.tools.json_out()
+	def LedLight(self):
+		
+		global index;
+		print("running");
+		setColor(colors[index]);
+		index = index + 1;
+		index = index % 4;
+		print("led index:", index );
+		
+		return {"Key":"thing"}
+		
+	
+# 
+#######################################################
+
+#FILE HANDLING
+#######################################################
+
+# get the current directory of the program you are running in order to make sure 
+
+
+
+
+def loadPage(pageFile): 
+	
+	pageFileStream = open(pageFile, "r"); 
+	returnPage = pageFileStream.read(); 
+	pageFileStream.close(); 
+	
+	
+	
+	
+	return returnPage;
+
+
+
+# simples add the Pages to the before of the pageName you are passing so you dont have to write all that stuff 
+# in order to find the html file you are looking for
+def simplePageGrab(pageName):
+	
+	return os.path.join(getPagesDirectory() , pageName);
+	
+def getCurrentDirectory():
+	return os.getcwd();
+	
+	
+def getFiles(directoryFile):
+	
+	fileList = os.listdir();
+	
+	
+	index = 0;
+	tempPath = directoryFile;
+	for element in fileList:
+		tempPath = os.path.join(directoryFile, element); 
+		fileList[index] = tempPath;
+		index = index +1;
+	return fileList;
+	
+	
+
+
+def getPagesDirectory(): 
+	
+	currentWorkingDirectory = getCurrentDirectory(); 
+	fileList = getFiles(currentWorkingDirectory);
+
+
+	lookingFor = os.path.join(currentWorkingDirectory , "Pages");
+	
+	
+	for element in fileList:
+		if (element == lookingFor ):
+			return element;
+		
+	
+	
+	return;
+		
+	
+
+########################################################
+# SENSOR CODE
+########################################################
+DO = 29
+buzzerPin = 12; # buzzer pin out
+objectDetectPin = 11; # object detect pinout
+buzzer_object = None;
+
+
+p_R = None;
+p_G = None;
+#LEDG = 13
+#LEDR = 22
+
+#buzzerPin = 12
+#GPIO.setmode(GPIO.BCD)
+
+####################################
+# BUZZER SET-UP AND PINOUTS
+#BUZZER = 12;
+#GPIO.setup(buzzerPin, GPIO.OUT);
+#buzzer = GPIO.PWM(buzzerPin, 1000);
+
+
+
+def setup():
+	
+	global colors, buzzer_object, p_R, p_G;
+	
+	GPIO.setmode(GPIO.BOARD); 
+	ADC.setup(0x48)
+	GPIO.setup(DO, GPIO.IN);	  
+	GPIO.setup(buzzerPin, GPIO.OUT);
+	
+	GPIO.setup(objectDetectPin, GPIO.IN);
+	
+	buzzer_object = GPIO.PWM(buzzerPin, 1000);
+	
+	
+	
+	# LED light
+	GPIO.setup(pins, GPIO.OUT) # Set pins' mode is output
+	GPIO.output(pins, GPIO.LOW) # Set pins to LOW(0V) to off led
+
+	p_R = GPIO.PWM(pins[0], 2000) # set Frequece to 2KHz
+	p_G = GPIO.PWM(pins[1], 2000)
+	
+	p_R.start(0); 
+	p_G.start(0);
+	setColor(colors[1]);
+	#GPIO.setup(LEDG, GPIO.OUT)
+	#GPIO.setup(LEDR, GPIO.OUT)
+	#GPIO.output(LEDR, 1)
+	#GPIO.setup(buzzPin, GPIO.OUT)
+	#buzzer = GPIO.PWM(buzzPin, 1000)
+
+
+
+def map(x, in_min, in_max, out_min, out_max):
+	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+	
+
+
+def setColor(col): # For example : col = 0x1122
+	
+	R_val = col >> 8
+	G_val = col & 0x00FF
+
+
+	R_val = map(R_val, 0, 255, 0, 100)
+	G_val = map(G_val, 0, 255, 0, 100)
+
+	p_R.ChangeDutyCycle(R_val) # Change duty cycle
+	p_G.ChangeDutyCycle(G_val)
+
+
+	
+
+def Print(x):
+	if x == 1:
+		print ('')
+		print ('***********')
+		print ('* Better~ *')
+		print ('***********')
+		print ('')
+	if x == 0:
+		print ('')
+		print ('***********')
+		print ('* HOT~    *')
+		print ('***********')
+		print ('')
+
+
+
+
+
+# Reading from the program are just wrong and this could can be because of coding problems or other problems with the program but make a difference how
+# 1. if it is the sensor we are going to just going to have to remove the sensor in order to make sure everthing is working the right this is going
+# 2. coding problem if so wrong input and function or just wrong math is being done in the program need to be check 
+def tempRead(): 
+	
+		# pre-set before the for loop in order to make sure everthin is good with the program remain a key piece of the 
+		
+		status = 1;
+		tmp = 1;
+		
+		
+		analogVal = ADC.read(1)
+		Vr = 5 * float(analogVal) / 255
+		Rt = 10000 * Vr / (5 - Vr)
+		print("Value of Rt ---->",Rt);
+		temp = math.log(Rt/10000) / 3950;
+		temp = temp + (1 /(273.15 + 15));
+		temp = 1 / temp
+		#temp = 1 / ((math.log(Rt /10000)) / 3950) /1  + (1 /(273.15 + 15))
+		#temp = 1/(((math.log(Rt / 10000)) / 3950) + (1 / (273.15+25)))
+		temp = temp - 273.15
+		print ('temperature = ', temp, 'C')
+
+		# For a threshold, uncomment one of the code for
+		# which module you use. DONOT UNCOMMENT BOTH!
+		#################################################
+		# 1. For Analog Temperature module(with DO)
+		tmp = GPIO.input(DO);
+		# 
+		# 2. For Thermister module(with sig pin)
+		if temp > 33:
+			tmp = 0;
+		elif temp < 31:
+			tmp = 1;
+		
+		
+		
+		#calling right here
+		#################################################
+		#if temp > 50:
+		#	lightOn()
+		#	buzzerOn()
+		#else:
+		#	lightOff()
+		
+		##################################################
+		
+		
+		
+		
+		
+		
+			
+		
+		if tmp != status: 
+			print(tmp)
+			status = tmp
+			
+		#time.sleep(0.2);
+		return str(temp);
+		#if tmp != status:
+		#	print(tmp)
+		#	status = tmp
+
+		#time.sleep(0.2)
+
+	
+
+def checkDetech():
+	
+	
+	index = 0;
+	while index < 10000: 
+		if GPIO.input(objectDetectPin): 
+			
+			return False; 
+			
+		else: 
+			return True;
+	
+	
+	
+	
+
+def loop():
+	status = 1
+	tmp = 1
+	while True:
+		analogVal = ADC.read(1)
+		Vr = 5 * float(analogVal) / 255
+		Rt = 10000 * Vr / (5 - Vr)
+		print("Value of Rt ---->",Rt);
+		temp = math.log(Rt/10000) / 3950
+		temp = temp + (1 /(273.15 + 15));
+		temp = 1 / temp
+		#temp = 1 / ((math.log(Rt /10000)) / 3950) /1  + (1 /(273.15 + 15))
+		#temp = 1/(((math.log(Rt / 10000)) / 3950) + (1 / (273.15+25)))
+		temp = temp - 273.15
+		print ('temperature = ', temp, 'C')
+
+		# For a threshold, uncomment one of the code for
+		# which module you use. DONOT UNCOMMENT BOTH!
+		#################################################
+		# 1. For Analog Temperature module(with DO)
+		tmp = GPIO.input(DO);
+		# 
+		# 2. For Thermister module(with sig pin)
+		if temp > 33:
+			tmp = 0;
+		elif temp < 31:
+			tmp = 1;
+		#################################################
+
+		if tmp != status:
+			Print(tmp)
+			status = tmp
+
+		time.sleep(0.2)
+		
+def lightOn():
+	GPIO.output(LEDR, 0)
+	GPIO.output(LEDG, 1)
+	
+def lightOff():
+	GPIO.output(LEDR, 1)
+	GPIO.output(LEDG, 0)
+	
+def buzzerOn():
+	
+	global buzzer_object;
+		
+	buzzer_object.start(10)
+	buzzer_object.ChangeFrequency(440)
+	time.sleep(1)
+	buzzer_object.stop()
+	
+
+
+if __name__ == '__main__':
+	try:
+		setup()
+		#loop()
+		main();
+		
+		
+	except KeyboardInterrupt: 
+		# This was the origal point in the code and that how I had it before in the 
+		# program
+		#pass m
+		GPIO.cleanup()
+		print("something here in the code");    
+		
+
+
+
