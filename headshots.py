@@ -1,6 +1,6 @@
 import cv2
 
-name = 'personName' #replace with name of folder created in step 5
+name = 'William' #replace with name of folder created in step 5
 
 cam = cv2.VideoCapture(0)
 
